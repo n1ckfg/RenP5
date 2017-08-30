@@ -1,8 +1,9 @@
-class Page {
+class Actor {
 
   String name = "Empty";
   
-  Page() {
+  Actor() {
+    //
   }
 
 }

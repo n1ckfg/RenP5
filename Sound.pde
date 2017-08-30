@@ -1,8 +1,9 @@
-class Page {
+class Sound {
 
   String name = "Empty";
   
-  Page() {
+  Sound() {
+    //
   }
 
 }

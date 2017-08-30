@@ -1,8 +1,9 @@
-class Page {
+class Prop {
 
   String name = "Empty";
   
-  Page() {
+  Prop() {
+    //
   }
 
 }

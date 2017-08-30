@@ -1,8 +1,9 @@
-class Page {
+class Label {
 
   String name = "Empty";
   
-  Page() {
+  Label() {
+    //
   }
 
 }
