@@ -1,8 +1,8 @@
-class Label {
+class Script {
 
   String name = "Empty";
   
-  Label() {
+  Script() {
     //
   }
 
