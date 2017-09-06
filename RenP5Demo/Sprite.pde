@@ -7,21 +7,26 @@ class Sprite {
   boolean scaleToFit = false;
   String name = "Empty";
   int alpha = 0;
-  boolean alive = true;
+  boolean alive = false;
   int fadeDelta = 5;
  
-  Sprite(String _url, String _name) {
-    init(_url, width/2, height/2, true, _name);
+  Sprite(String _name) {
+    init(_name, width/2, height/2, "scene");
   }
   
-  Sprite(String _url, float x, float y, String _name) {
-    init(_url, x, y, false, _name);
+  Sprite(String _name, float x, float y) {
+    init(_name, x, y, "actor");
   }
       
-  void init(String _url, float x, float y, boolean _scaleToFit, String _name) {
+  void init(String _name, float x, float y, String _type) {
     name = _name;
-    scaleToFit = _scaleToFit;
-    url = _url;
+    if (_type.equals("actor")) {
+      scaleToFit = false;
+      url = "actors/" + _name + ".png";      
+    } else if (_type.equals("scene")) {
+      scaleToFit = true;
+      url = "scenes/" + _name + ".png";      
+    }
     img = loadImage(url);
     alpha = 0;
     alive = true;

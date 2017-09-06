@@ -8,6 +8,7 @@ class RenP5 {
   int fontSize;
   color fontColor;
   int dialogueHeight = 200;
+  int sceneCounter = 0;
 
   RenP5() {
     fontSize = 28;
@@ -47,12 +48,10 @@ class RenP5 {
   }
   
   void setupScenes() {
-    scenes = new Scene[5];
-    scenes[0] = new Scene("images/scenes/saga01.png", "Saga1");
-    scenes[1] = new Scene("images/scenes/saga02.png", "Saga2");
-    scenes[2] = new Scene("images/scenes/saga03.png", "Saga3");
-    scenes[3] = new Scene("images/scenes/saga04.png", "Saga4");
-    scenes[4] = new Scene("images/scenes/saga05.png", "Saga5");
+    scenes = new Scene[script.sceneNames.length];
+    for (int i=0; i<scenes.length; i++) {
+      scenes[i] = new Scene(script.sceneNames[i]);
+    }
   }
   
   void drawScenes() {
@@ -62,9 +61,10 @@ class RenP5 {
   }
 
   void setupActors() {
-    actors = new Actor[2];
-    actors[0] = new Actor("images/actors/robot1.png", (width/2) - 200, height/2, "Robot1", color(0,127,255));
-    actors[1] = new Actor("images/actors/robot2.png", (width/2) + 200, height/2, "Robot2", color(255,0,127));
+    actors = new Actor[script.actorNames.length];
+    for (int i=0; i<actors.length; i++) {
+      actors[i] = new Actor(script.actorNames[i], 0, 0, color(127));
+    }    
   }
   
   void drawActors() {
@@ -77,34 +77,18 @@ class RenP5 {
     for (int i=0; i<scenes.length; i++) {
         scenes[i].alive = scenes[i].name == name;
     }
+    sceneCounter = 0;
   }
   
-  String getScene() {
-    String returns = "";
+  boolean getScene(String name) {
+    boolean returns = false;
     for (int i=0; i<scenes.length; i++) {
-      if (scenes[i].alive) {
-        returns = scenes[i].name;
+      if (scenes[i].name.equals(name) && scenes[i].alive) {
+        returns = true;
         break;
       }
     }
     return returns;
-  }
-  
-  void setActors(String[] names) {
-    for (int i=0; i<actors.length; i++) {
-      actors[i].alive = false;
-      for (int j=0; j<names.length; j++) {
-        if (actors[i].name == names[j]) actors[i].alive = true;
-      }
-    }
-  }
-  
-  String[] getActors() {
-    ArrayList<String> returns = new ArrayList<String>();
-    for (int i=0; i<actors.length; i++) {
-      if (actors[i].alive) returns.add(actors[i].name);
-    }
-    return returns.toArray(new String[returns.size()]);
   }
   
 }
