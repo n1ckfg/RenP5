@@ -1,18 +1,22 @@
 class Script {
   
-  String[] sceneNames = { "saga01", "saga02" };
-  String[] actorNames = { "robot1", "robot2" };
+  Scene Saga1, Saga2;
+  Actor RobotBlue, RobotRed;
+  
+  ArrayList<Actor> test;
+  
+  String[] sceneNames = { "Saga1", "Saga2" };
+  String[] actorNames = { "RobotRed", "RobotBlue" };
    
   Script() {
-    //
+    test = new ArrayList<Actor>();
+    RobotBlue = new Actor("RobotBlue", width/2, height/2, color(255,0,0));
+    test.add(RobotBlue);
+    println(test.size());
   }
 
   void update() {
-    if (renP5.getScene("saga01")) {
-      if (renP5.sceneCounter == 0) {
-        
-      }
-    }
+
   }
   
     /*

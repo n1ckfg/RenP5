@@ -11,11 +11,12 @@ class RenP5 {
   int sceneCounter = 0;
 
   RenP5() {
+    script = new Script();
+
     fontSize = 28;
     font = createFont("Arial", fontSize);
     fontColor = color(127);
     
-    script = new Script();
     setupScenes();
     setupActors();
   }
@@ -73,22 +74,42 @@ class RenP5 {
     }
   }
   
-  void setScene(String name) {
+  void newScene(String name) {
     for (int i=0; i<scenes.length; i++) {
-        scenes[i].alive = scenes[i].name == name;
+      scenes[i].alive = scenes[i].name == name;
     }
     sceneCounter = 0;
   }
   
-  boolean getScene(String name) {
-    boolean returns = false;
+  Scene getScene(String name) {
+    Scene s = null;
     for (int i=0; i<scenes.length; i++) {
-      if (scenes[i].name.equals(name) && scenes[i].alive) {
-        returns = true;
+      if (scenes[i].name.equals(name)) {
+        s = scenes[i];
         break;
       }
     }
-    return returns;
+    return s;
+  }
+  
+  void newActors(String[] names) {
+    for (int i=0; i<actors.length; i++) {
+      actors[i].alive = false;
+      for (int j=0; j<names.length; j++) {
+        if (actors[i].name == names[j]) actors[i].alive = true;
+      }
+    }
+  }
+  
+  Actor getActor(String name) {
+    Actor a = null;
+    for (int i=0; i<actors.length; i++) {
+      if (actors[i].name.equals(name)) {
+        a = actors[i];
+        break;
+      }
+    }
+    return a;
   }
   
 }
