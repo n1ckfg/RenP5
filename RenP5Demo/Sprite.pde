@@ -6,46 +6,29 @@ class Sprite {
   String url;
   boolean scaleToFit = false;
   String name = "Empty";
-  int imgWidth;
-  int imgHeight;
   int alpha = 0;
   boolean alive = true;
   int fadeDelta = 5;
  
-  Sprite(String _url) {
-    init(_url, width/2, height/2, true);
+  Sprite(String _url, String _name) {
+    init(_url, width/2, height/2, true, _name);
   }
   
-  Sprite(String _url, float x, float y) {
-    init(_url, x, y, false);
+  Sprite(String _url, float x, float y, String _name) {
+    init(_url, x, y, false, _name);
   }
-    
-  void init(String _url, float x, float y, boolean scale) {
-    scaleToFit = scale;
+      
+  void init(String _url, float x, float y, boolean _scaleToFit, String _name) {
+    name = _name;
+    scaleToFit = _scaleToFit;
     url = _url;
     img = loadImage(url);
     alpha = 0;
     alive = true;
     
-    if (scale) {
-      float w = float(width);
-      float h = float(height);
-      float iw = float(img.width);
-      float ih = float(img.height);
-      if (iw > ih) {
-        imgWidth = width;
-        imgHeight = int(ih * (w/iw));
-      } else {
-        imgHeight = img.height;   
-        imgWidth = int(iw * (h/ih));
-      }
-    } else {
-      imgWidth = img.width;
-      imgHeight = img.height;
-    }
-    
     pos = new PVector(x, y);
-    g = createGraphics(imgWidth, imgHeight, P2D);
+    if (scaleToFit) img.resize(0, height);
+    g = createGraphics(img.width, img.height, P3D);
   }
   
   void update() {
@@ -56,12 +39,11 @@ class Sprite {
     g.beginDraw();
     g.clear();
     g.tint(color(255, alpha));
-    if (scaleToFit) {
-      g.image(img, 0, 0, imgWidth, imgHeight);
-    } else {
-      g.image(img, 0, 0);
-    }
+    g.imageMode(CORNER);
+    g.image(img, 0, 0);
     g.endDraw();
+    
+    imageMode(CENTER);
     image(g, pos.x, pos.y);
   }
   

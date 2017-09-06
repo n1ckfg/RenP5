@@ -2,6 +2,7 @@ class RenP5 {
   
   int sceneCounter = 0;
   
+  Cam cam;
   Scene[] scenes;
   Actor[] actors;
   Prop[] props;
@@ -10,7 +11,7 @@ class RenP5 {
   Script script;
   
   RenP5() {
-    imageMode(CENTER);
+    cam = new Cam();
     setupScenes();
     setupActors();
   }
@@ -22,6 +23,8 @@ class RenP5 {
   void draw() {
     drawScenes();
     drawActors();
+    cam.run();
+    surface.setTitle(""+frameRate);
   }
   
   void run() {
@@ -31,11 +34,11 @@ class RenP5 {
   
   void setupScenes() {
     scenes = new Scene[5];
-    scenes[0] = new Scene("images/scenes/saga01.png");
-    scenes[1] = new Scene("images/scenes/saga02.png");
-    scenes[2] = new Scene("images/scenes/saga03.png");
-    scenes[3] = new Scene("images/scenes/saga04.png");
-    scenes[4] = new Scene("images/scenes/saga05.png");
+    scenes[0] = new Scene("images/scenes/saga01.png", "Saga1");
+    scenes[1] = new Scene("images/scenes/saga02.png", "Saga2");
+    scenes[2] = new Scene("images/scenes/saga03.png", "Saga3");
+    scenes[3] = new Scene("images/scenes/saga04.png", "Saga4");
+    scenes[4] = new Scene("images/scenes/saga05.png", "Saga5");
   }
   
   void drawScenes() {
@@ -51,8 +54,8 @@ class RenP5 {
 
   void setupActors() {
     actors = new Actor[2];
-    actors[0] = new Actor("images/actors/robot.png", width/2, height/2);
-    actors[1] = new Actor("images/actors/robot.png", width/2, height/2);
+    actors[0] = new Actor("images/actors/robot1.png", (width/2) - 200, height/2, "Robot1");
+    actors[1] = new Actor("images/actors/robot2.png", (width/2) + 200, height/2, "Robot2");
   }
   
   void drawActors() {
