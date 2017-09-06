@@ -28,7 +28,7 @@ class Sprite {
     
     pos = new PVector(x, y);
     if (scaleToFit) img.resize(0, height);
-    g = createGraphics(img.width, img.height, P3D);
+    g = createGraphics(img.width, img.height, P2D);
   }
   
   void update() {

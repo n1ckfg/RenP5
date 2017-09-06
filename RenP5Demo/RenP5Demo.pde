@@ -1,7 +1,7 @@
 RenP5 renP5;
 
 void setup() {
-  fullScreen(P3D);
+  fullScreen(P2D);
   pixelDensity(1);//displayDensity());
   noCursor();
   renP5 = new RenP5();
