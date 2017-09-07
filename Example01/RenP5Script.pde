@@ -5,10 +5,6 @@ class RenP5Script extends RenP5 {
   
   RenP5Script() {
     super();
-    setupActors();
-    setupScenes();
-    
-    gotoScene(Saga1);
   }
   
   void setupActors() {
@@ -23,6 +19,10 @@ class RenP5Script extends RenP5 {
 
     Saga2 = addScene("Saga2");
     Saga2.addActor(RobotRed, width/2, (height/2) + 87);  
+  }
+  
+  void begin() {
+    gotoScene(Saga1);
   }
   
   void update() {

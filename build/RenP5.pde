@@ -7,6 +7,22 @@ class RenP5 {
   RenP5() {
     dialogue = new Dialogue();
     scenes = new ArrayList<Scene>();
+    
+    setupActors();
+    setupScenes();
+    begin();
+  }
+
+  void setupActors() {
+    //
+  }
+  
+  void setupScenes() {
+    //
+  }
+  
+  void begin() {
+    //
   }
 
   void update() {
@@ -74,9 +90,7 @@ class RenP5 {
     return s;
   }
   
-}
-
-class Sprite {
+}class Sprite {
   
   PVector pos;
   PGraphics g;

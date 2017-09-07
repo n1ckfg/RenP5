@@ -16,8 +16,6 @@ touch $BUILD_TARGET
 
 cd $SOURCE_DIR
 
-ls
-
 cat "RenP5Core.pde" "Sprite.pde" "Scene.pde" "Actor.pde" "Dialogue.pde" > $BUILD_TARGET
 
 cp $BUILD_TARGET $DIR"/Example01/"
