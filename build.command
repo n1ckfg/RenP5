@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BUILD_TARGET="build/latk.py"
-
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -10,12 +8,16 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-cd $DIR
+BUILD_TARGET=$DIR"/build/RenP5.pde"
+SOURCE_DIR=$DIR"/Dev/"
 
 rm $BUILD_TARGET
 touch $BUILD_TARGET
 
-cat "latk_main.py" "latk_tools.py" "latk_rw.py" "latk_mtl.py" "latk_mesh.py" "latk_draw.py" "latk_shortcuts.py" "latk_test.py" "latk_ui.py" > $BUILD_TARGET
+cd $SOURCE_DIR
 
-cp $BUILD_TARGET "${HOME}/Applications/blender/2.77/scripts/addons/"
-cp $BUILD_TARGET "${HOME}/Applications/blender/2.78/scripts/addons/"
+ls
+
+cat "RenP5Core.pde" "Sprite.pde" "Scene.pde" "Actor.pde" "Dialogue.pde" > $BUILD_TARGET
+
+cp $BUILD_TARGET $DIR"/Example01/"
