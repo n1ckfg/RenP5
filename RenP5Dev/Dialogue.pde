@@ -11,7 +11,7 @@ class Dialogue {
     defaultFontSize = 28;
     dialogueHeight = int(defaultFontSize * 7.5);
     defaultFont = createFont("Arial", defaultFontSize);
-    defaultFontColor = color(127); 
+    defaultFontColor = color(200); 
 
     for  (int i=0; i<slot.length; i++) {
       slot[i] = new DialogueSlot(i, defaultFont, defaultFontSize, defaultFontColor, dialogueHeight);
@@ -23,9 +23,13 @@ class Dialogue {
     noStroke();
     rect(0, height-dialogueHeight, width, height);
     stroke(255);
+    strokeWeight(2);
     line(0, height-dialogueHeight, width, height-dialogueHeight);
-
-    if (millis() > renP5.currentScene.markTime + delayTime) {
+    stroke(255, 63);
+    strokeWeight(6);
+    line(0, height-dialogueHeight, width, height-dialogueHeight);
+    
+    if (millis() > rp5.currentScene.markTime + delayTime) {
       for (int i=0; i<slot.length; i++) {
         if (i==0 || slot[i-1].finished) slot[i].run();
       }
@@ -66,9 +70,15 @@ class DialogueSlot {
     }
    
     textFont(font, fontSize);
-    fill(fontColor);    
     textAlign(CENTER);
-    text(txtD, width/2, height-(dialogueHeight-(fontSize*(2+(index*2)))));
+    int x = width/2;
+    int y = height-(dialogueHeight-(fontSize*(2+(index*2))));
+    fill(0);
+    text(txtD, x+2, y+2);
+    fill(fontColor);    
+    text(txtD, x, y);
+    fill(255, 100);
+    text(txtD, x-1, y-1);
     txtP = txt;
   }
 

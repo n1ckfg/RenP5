@@ -35,7 +35,7 @@ class Sprite {
   }
   
   void update() {
-    fader();
+    if (type == "scene") fader();
   }
  
   void draw() {
