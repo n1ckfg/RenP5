@@ -2,6 +2,8 @@ class Scene extends Sprite {
   
   ArrayList<Actor> actors;
   int counter = 0;
+  String monologue;
+  int markTime = 0;
   
   Scene(String _name) {
     super(_name);

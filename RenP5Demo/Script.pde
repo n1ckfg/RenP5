@@ -1,13 +1,14 @@
 class Script {
   
   ArrayList<Scene> scenes;
-  
   Scene currentScene;
-  
+  Dialogue dialogue;
+
   Scene Saga1, Saga2;
   Actor RobotBlue, RobotRed;
   
   Script() {
+    dialogue = new Dialogue();
     setupScenes();
     setupActors();
     
@@ -29,32 +30,50 @@ class Script {
     RobotRed = new Actor("RobotRed", (width/2) + 200, height/2, color(255,127,0));
     
     Saga1.actors.add(RobotBlue);
+    Saga1.actors.add(RobotRed);
+
     Saga2.actors.add(RobotRed);  
-  }
-  
-  void gotoScene(Scene scene) {
-    for (int i=0; i<scenes.size(); i++) {
-      Scene s = scenes.get(i);
-      s.alive = s.name == scene.name;
-      if (s.alive) currentScene = s;
-    }
   }
   
   void update() {
     if (currentScene == Saga1) {
       if (Saga1.counter == 0) {
-        renP5.dialogue1 = "Scooby?";
-        renP5.dialogue2 = "Doobie.";
+        speak(RobotBlue, "Hey, Scooby?");
+        speak(RobotRed, "Yeah, Doobie?");
       } else if (Saga1.counter == 1) {
-        renP5.dialogue1 = "Bye now!";
-        renP5.dialogue2 = "Uh-huh.";
+        speak(RobotBlue, "I want a cookie.");
+        speak(RobotRed, "That's nice, Doobie.");
       } else if (Saga1.counter == 2) {
         gotoScene(Saga2);   
       }
     } else if (currentScene == Saga2) {
-      renP5.dialogue1 = "Dooo-oo-ooobie.";
-      renP5.dialogue2 = "Yeah, doobie.";
+        speak(RobotRed, "I hate that guy.");
     }
   }
-  
+   
+  void speak(Actor a, String txt) {
+    int index = 0;
+    for (int i=0; i<currentScene.actors.size(); i++) {
+      if (a == currentScene.actors.get(i)) {
+        index = i;
+        break;
+      }
+    }
+    dialogue.slot[index].fontColor = a.fontColor;
+    dialogue.slot[index].txt = a.name + ": " + txt;
+  }
+ 
+  void gotoScene(Scene scene) {
+    for (int i=0; i<scenes.size(); i++) {
+      Scene s = scenes.get(i);
+      s.alive = s.name == scene.name;
+      if (s.alive) {
+        s.markTime = millis();
+        currentScene = s;
+      }
+    }
+    for (int i=0; i<dialogue.slot.length; i++) {
+      dialogue.slot[i].txt = "";
+    }
+  }
 }
