@@ -15,28 +15,13 @@ class Scene extends Sprite {
   
   void update() {
     super.update();
-    //actorsSync();
     if (!alive) counter = 0;
   }
-  
-  void advance() {
-    counter++;
-  }
-  
-  /*
-  void actorsSync() {
-    for (int i=0; i<actors.size(); i++) {
-      Actor a = actors.get(i);
-      a.alive = alive;
-      a.pos = pos.get(i);
-    }
-  }
-  */
   
   void addActor(Actor a, float x, float y) {
     actors.add(a);
     pos.add(new PVector(x, y));
   }
-
+  
 }
 

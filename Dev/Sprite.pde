@@ -20,7 +20,7 @@ class Sprite {
     type = _type;
     if (type.equals("actor")) {
       scaleToFit = false;
-      url = "actors/" + _name + ".png";      
+      url = "actors/" + _name + "/" + _name + "_main.png";      
     } else if (type.equals("scene")) {
       scaleToFit = true;
       url = "scenes/" + _name + ".png";      

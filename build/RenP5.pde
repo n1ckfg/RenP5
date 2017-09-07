@@ -1,7 +1,6 @@
 class RenP5 {
   
   ArrayList<Scene> scenes;
-  Scene currentScene;
   Dialogue dialogue;
   
   RenP5() {
@@ -52,10 +51,11 @@ class RenP5 {
   }
   
   void speak(Actor a, String txt) {
+    dialogue.choiceBlock = false;
     int index = 0;
-    if (currentScene.actors.size() > 1) {
-      for (int i=0; i<currentScene.actors.size(); i++) {
-        if (a == currentScene.actors.get(i)) {
+    if (dialogue.currentScene.actors.size() > 1) {
+      for (int i=0; i<dialogue.currentScene.actors.size(); i++) {
+        if (a == dialogue.currentScene.actors.get(i)) {
           index = i;
           break;
         }
@@ -65,9 +65,22 @@ class RenP5 {
     dialogue.slot[index].txt = a.name + ": " + txt;
   }
  
-  void speak(Scene s, String txt) {
+  void speak(String txt) {
+    dialogue.choiceBlock = false;
     dialogue.slot[0].fontColor = dialogue.defaultFontColor;
     dialogue.slot[0].txt = txt;
+  }
+  
+  void choice(int index, String txt, int dest) {
+    dialogue.choiceBlock = true;
+    dialogue.slot[index-1].fontColor = dialogue.defaultFontColor;
+    dialogue.slot[index-1].txt = index + ". " + txt;    
+    if (keyPressed) {
+      String k = ""+key;
+      if (k.equals(""+index)) {
+        dialogue.currentScene.counter = dest;
+      }
+    }
   }
   
   void gotoScene(Scene scene) {
@@ -76,7 +89,7 @@ class RenP5 {
       s.alive = s.name == scene.name;
       if (s.alive) {
         s.markTime = millis();
-        currentScene = s;
+        dialogue.currentScene = s;
       }
     }
     for (int i=0; i<dialogue.slot.length; i++) {
@@ -90,7 +103,9 @@ class RenP5 {
     return s;
   }
   
-}class Sprite {
+}
+
+class Sprite {
   
   PVector pos;
   PGraphics g;
@@ -112,7 +127,7 @@ class RenP5 {
     type = _type;
     if (type.equals("actor")) {
       scaleToFit = false;
-      url = "actors/" + _name + ".png";      
+      url = "actors/" + _name + "/" + _name + "_main.png";      
     } else if (type.equals("scene")) {
       scaleToFit = true;
       url = "scenes/" + _name + ".png";      
@@ -176,29 +191,14 @@ class Scene extends Sprite {
   
   void update() {
     super.update();
-    //actorsSync();
     if (!alive) counter = 0;
   }
-  
-  void advance() {
-    counter++;
-  }
-  
-  /*
-  void actorsSync() {
-    for (int i=0; i<actors.size(); i++) {
-      Actor a = actors.get(i);
-      a.alive = alive;
-      a.pos = pos.get(i);
-    }
-  }
-  */
   
   void addActor(Actor a, float x, float y) {
     actors.add(a);
     pos.add(new PVector(x, y));
   }
-
+  
 }
 
 class Actor extends Sprite {
@@ -206,10 +206,32 @@ class Actor extends Sprite {
   PFont font;
   int fontSize;
   color fontColor;
+  ArrayList<PImage> states;
+  ArrayList<String> stateNames;
   
   Actor(String _name, color _fontColor) {
     super(_name, "actor");
     fontColor = _fontColor;
+    
+    states = new ArrayList<PImage>();
+    states.add(img);
+    stateNames = new ArrayList<String>();
+    stateNames.add("main");
+  }
+  
+  void addState(String _name) {
+    PImage temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
+    states.add(temp);
+    stateNames.add(_name);
+  }
+  
+  void setState(String _name) {
+    for (int i=0; i<stateNames.size(); i++) {
+      if (stateNames.get(i).equals(_name)) {
+        img = states.get(i);
+        break;
+      }
+    }
   }
   
 }
@@ -222,6 +244,9 @@ class Dialogue {
   DialogueSlot[] slot = new DialogueSlot[3];
   int dialogueHeight;
   int delayTime = 900;
+  Scene currentScene;
+  boolean finished = false;
+  boolean choiceBlock = false;
   
   Dialogue() {
     defaultFontSize = 28;
@@ -245,11 +270,17 @@ class Dialogue {
     strokeWeight(6);
     line(0, height-dialogueHeight, width, height-dialogueHeight);
     
-    if (millis() > rp5.currentScene.markTime + delayTime) {
+    if (millis() > currentScene.markTime + delayTime) {
+      finished = true;
       for (int i=0; i<slot.length; i++) {
         if (i==0 || slot[i-1].finished) slot[i].run();
+        if (!slot[i].finished) finished = false;
       }
     }
+  }
+  
+  void advance() {
+    if (finished && !choiceBlock) currentScene.counter++;
   }
 }
 
@@ -299,6 +330,4 @@ class DialogueSlot {
   }
 
 }
-
-
 

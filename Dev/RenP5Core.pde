@@ -1,7 +1,6 @@
 class RenP5 {
   
   ArrayList<Scene> scenes;
-  Scene currentScene;
   Dialogue dialogue;
   
   RenP5() {
@@ -52,10 +51,11 @@ class RenP5 {
   }
   
   void speak(Actor a, String txt) {
+    dialogue.choiceBlock = false;
     int index = 0;
-    if (currentScene.actors.size() > 1) {
-      for (int i=0; i<currentScene.actors.size(); i++) {
-        if (a == currentScene.actors.get(i)) {
+    if (dialogue.currentScene.actors.size() > 1) {
+      for (int i=0; i<dialogue.currentScene.actors.size(); i++) {
+        if (a == dialogue.currentScene.actors.get(i)) {
           index = i;
           break;
         }
@@ -65,9 +65,22 @@ class RenP5 {
     dialogue.slot[index].txt = a.name + ": " + txt;
   }
  
-  void speak(Scene s, String txt) {
+  void speak(String txt) {
+    dialogue.choiceBlock = false;
     dialogue.slot[0].fontColor = dialogue.defaultFontColor;
     dialogue.slot[0].txt = txt;
+  }
+  
+  void choice(int index, String txt, int dest) {
+    dialogue.choiceBlock = true;
+    dialogue.slot[index-1].fontColor = dialogue.defaultFontColor;
+    dialogue.slot[index-1].txt = index + ". " + txt;    
+    if (keyPressed) {
+      String k = ""+key;
+      if (k.equals(""+index)) {
+        dialogue.currentScene.counter = dest;
+      }
+    }
   }
   
   void gotoScene(Scene scene) {
@@ -76,7 +89,7 @@ class RenP5 {
       s.alive = s.name == scene.name;
       if (s.alive) {
         s.markTime = millis();
-        currentScene = s;
+        dialogue.currentScene = s;
       }
     }
     for (int i=0; i<dialogue.slot.length; i++) {
@@ -91,3 +104,4 @@ class RenP5 {
   }
   
 }
+

@@ -6,6 +6,9 @@ class Dialogue {
   DialogueSlot[] slot = new DialogueSlot[3];
   int dialogueHeight;
   int delayTime = 900;
+  Scene currentScene;
+  boolean finished = false;
+  boolean choiceBlock = false;
   
   Dialogue() {
     defaultFontSize = 28;
@@ -29,11 +32,17 @@ class Dialogue {
     strokeWeight(6);
     line(0, height-dialogueHeight, width, height-dialogueHeight);
     
-    if (millis() > rp5.currentScene.markTime + delayTime) {
+    if (millis() > currentScene.markTime + delayTime) {
+      finished = true;
       for (int i=0; i<slot.length; i++) {
         if (i==0 || slot[i-1].finished) slot[i].run();
+        if (!slot[i].finished) finished = false;
       }
     }
+  }
+  
+  void advance() {
+    if (finished && !choiceBlock) currentScene.counter++;
   }
 }
 
@@ -83,6 +92,4 @@ class DialogueSlot {
   }
 
 }
-
-
 

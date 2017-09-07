@@ -13,6 +13,4 @@ void draw() {
   background(0);
   
   rp5.run();
-
-  surface.setTitle(""+frameRate);
 }
