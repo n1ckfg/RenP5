@@ -5,7 +5,7 @@ class Dialogue {
   color defaultFontColor;
   DialogueSlot[] slot = new DialogueSlot[3];
   int dialogueHeight;
-  int delayTime = 1000;
+  int delayTime = 900;
   
   Dialogue() {
     defaultFontSize = 28;
@@ -25,7 +25,7 @@ class Dialogue {
     stroke(255);
     line(0, height-dialogueHeight, width, height-dialogueHeight);
 
-    if (millis() > renP5.script.currentScene.markTime + delayTime) {
+    if (millis() > renP5.currentScene.markTime + delayTime) {
       for (int i=0; i<slot.length; i++) {
         if (i==0 || slot[i-1].finished) slot[i].run();
       }

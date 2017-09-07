@@ -4,8 +4,8 @@ class Actor extends Sprite {
   int fontSize;
   color fontColor;
   
-  Actor(String _name, float x, float y, color _fontColor) {
-    super(_name, x, y);
+  Actor(String _name, color _fontColor) {
+    super(_name, "actor");
     fontColor = _fontColor;
   }
   

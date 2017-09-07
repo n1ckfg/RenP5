@@ -5,25 +5,23 @@ class Sprite {
   PImage img;
   String url;
   boolean scaleToFit = false;
-  String name = "Empty";
+  String name = "";
+  String type = "";
   int alpha = 0;
   boolean alive = false;
   int fadeDelta = 5;
  
-  Sprite(String _name) {
-    init(_name, width/2, height/2, "scene");
-  }
-  
-  Sprite(String _name, float x, float y) {
-    init(_name, x, y, "actor");
+  Sprite(String _name, String _type) {
+    init(_name, _type);
   }
       
-  void init(String _name, float x, float y, String _type) {
+  void init(String _name, String _type) {
     name = _name;
-    if (_type.equals("actor")) {
+    type = _type;
+    if (type.equals("actor")) {
       scaleToFit = false;
       url = "actors/" + _name + ".png";      
-    } else if (_type.equals("scene")) {
+    } else if (type.equals("scene")) {
       scaleToFit = true;
       url = "scenes/" + _name + ".png";      
     }
@@ -31,7 +29,7 @@ class Sprite {
     alpha = 0;
     alive = true;
     
-    pos = new PVector(x, y);
+    pos = new PVector(width/2, height/2);
     if (scaleToFit) img.resize(0, height);
     g = createGraphics(img.width, img.height, P2D);
   }
