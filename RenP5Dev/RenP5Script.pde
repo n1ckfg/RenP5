@@ -36,7 +36,7 @@ class RenP5Script extends RenP5 {
             speak(RobotRed, "Yeah, RobotBlue?");
             break;
           case 2:
-            speak(RobotBlue, "I want a cookie.");
+            speak(RobotBlue, "I want a cookie too.");
             speak(RobotRed, "That's nice, RobotBlue.");
             break;  
           case 3:

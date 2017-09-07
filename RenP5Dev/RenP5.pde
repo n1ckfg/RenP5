@@ -17,6 +17,7 @@ class RenP5 {
     for (int i=0; i<scenes.size(); i++) {
       Scene s = scenes.get(i);
       s.run();
+      
       for (int j=0; j<s.actors.size(); j++) {
         Actor a = s.actors.get(j);
         a.alive = s.alive;
