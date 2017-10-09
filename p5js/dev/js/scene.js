@@ -1,27 +1,24 @@
 class Scene extends Sprite {
-  
-  ArrayList<Actor> actors;
-  ArrayList<PVector> pos;
-  
-  int counter = 0;
-  String monologue;
-  int markTime = 0;
-  
-  Scene(String _name) {
-    super(_name, "scene");
-    actors = new ArrayList<Actor>();
-    pos = new ArrayList<PVector>();
-  }
-  
-  void update() {
-    super.update();
-    if (!alive) counter = 0;
-  }
-  
-  void addActor(Actor a, float x, float y) {
-    actors.add(a);
-    pos.add(new PVector(x, y));
-  }
-  
+    
+    constructor(_name) {
+    	this.actors = [];
+    	this.pos = [];
+    
+    	this.counter = 0;
+    	this.monologue;
+    	this.markTime = 0;
+        super(_name, "scene");
+    }
+    
+    update() {
+        super.update();
+        if (!this.alive) this.counter = 0;
+    }
+    
+    addActor(a, x, y) {
+        this.actors.push(a);
+        this.pos.push(createVector(x, y));
+    }
+    
 }
 

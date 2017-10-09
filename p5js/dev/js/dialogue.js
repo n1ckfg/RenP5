@@ -1,95 +1,84 @@
 class Dialogue {
 
-  PFont defaultFont;
-  int defaultFontSize;
-  color defaultFontColor;
-  DialogueSlot[] slot = new DialogueSlot[3];
-  int dialogueHeight;
-  int delayTime = 900;
-  Scene currentScene;
-  boolean finished = false;
-  boolean choiceBlock = false;
-  
-  Dialogue() {
-    defaultFontSize = 28;
-    dialogueHeight = int(defaultFontSize * 7.5);
-    defaultFont = createFont("Arial", defaultFontSize);
-    defaultFontColor = color(200); 
+    constructor() {
+	    this.defaultFont = createFont("Arial", defaultFontSize);
+	    this.defaultFontSize = 28;
+	    this.defaultFontColor = color(200); 
+	    this.slot = [];
+	    this.dialogueHeight = parseInt(defaultFontSize * 7.5);
+	    this.delayTime = 900;
+	    this.currentScene;
+	    this.finished = false;
+	    this.choiceBlock = false;
 
-    for  (int i=0; i<slot.length; i++) {
-      slot[i] = new DialogueSlot(i, defaultFont, defaultFontSize, defaultFontColor, dialogueHeight);
+        for (var i=0; i<3; i++) {
+            this.slot.push(new DialogueSlot(i, defaultFont, defaultFontSize, defaultFontColor, dialogueHeight));
+        }
     }
-  }
 
-  void draw() {
-    fill(0, 200);
-    noStroke();
-    rect(0, height-dialogueHeight, width, height);
-    stroke(255);
-    strokeWeight(2);
-    line(0, height-dialogueHeight, width, height-dialogueHeight);
-    stroke(255, 63);
-    strokeWeight(6);
-    line(0, height-dialogueHeight, width, height-dialogueHeight);
+    draw() {
+        fill(0, 200);
+        noStroke();
+        rect(0, height-this.dialogueHeight, width, height);
+        stroke(255);
+        strokeWeight(2);
+        line(0, height-this.dialogueHeight, width, height-this.dialogueHeight);
+        stroke(255, 63);
+        strokeWeight(6);
+        line(0, height-this.dialogueHeight, width, height-this.dialogueHeight);
+        
+        if (millis() > this.currentScene.markTime + this.delayTime) {
+            this.finished = true;
+            for (var i=0; i<this.slot.length; i++) {
+                if (i==0 || this.slot[i-1].finished) this.slot[i].run();
+                if (!this.slot[i].finished) this.finished = false;
+            }
+        }
+    }
     
-    if (millis() > currentScene.markTime + delayTime) {
-      finished = true;
-      for (int i=0; i<slot.length; i++) {
-        if (i==0 || slot[i-1].finished) slot[i].run();
-        if (!slot[i].finished) finished = false;
-      }
+    advance() {
+        if (this.finished && !this.choiceBlock) this.currentScene.counter++;
     }
-  }
-  
-  void advance() {
-    if (finished && !choiceBlock) currentScene.counter++;
-  }
 }
 
 class DialogueSlot {
-
-  PFont font;
-  int fontSize;
-  color fontColor;
-  String txt = "";
-  String txtP = "";
-  String txtD = "";
-  int index;
-  int dialogueHeight;
-  boolean finished = false;
-  
-  DialogueSlot(int _index, PFont _font, int _fontSize, color _fontColor, int _dialogueHeight) {
-    index = _index;
-    font = _font;
-    fontSize = _fontSize;
-    fontColor = _fontColor;
-    dialogueHeight = _dialogueHeight;
-  }
-
-  void run() {
-    if (!txtP.equals(txt)) {
-      txtD = "";
-      finished = false;
-    }
     
-    if (!finished && txtD.length() < txt.length()) {
-      txtD += txt.charAt(txtD.length());
-    } else if (txtD.length() == txt.length()) {
-      finished = true;
+    constructor(_index, _font, _fontSize, _fontColor, _dialogueHeight) {
+	    this.txt = "";
+	    this.txtP = "";
+	    this.txtD = "";
+	    this.index = _index;
+	    this.dialogueHeight = _dialogueHeight;
+	    this.finished = false;
+        this.font = _font;
+        this.fontSize = _fontSize;
+        this.fontColor = _fontColor;
     }
-   
-    textFont(font, fontSize);
-    textAlign(CENTER);
-    int x = width/2;
-    int y = height-(dialogueHeight-(fontSize*(2+(index*2))));
-    fill(0);
-    text(txtD, x+2, y+2);
-    fill(fontColor);    
-    text(txtD, x, y);
-    fill(255, 100);
-    text(txtD, x-1, y-1);
-    txtP = txt;
-  }
+
+    run() {
+        if (this.txtP !== this.txt) {
+            this.txtD = "";
+            this.finished = false;
+        }
+        
+        if (!this.finished && this.txtD.length() < this.txt.length()) {
+            this.txtD += this.txt.charAt(this.txtD.length());
+        } else if (this.txtD.length() === this.txt.length()) {
+            this.finished = true;
+        }
+     
+        textFont(this.font, this.fontSize);
+        textAlign(CENTER);
+        var x = width/2;
+        var y = height-(this.dialogueHeight-(this.fontSize*(2+(this.index*2))));
+        fill(0);
+        text(this.txtD, x+2, y+2);
+        fill(this.fontColor);        
+        text(this.txtD, x, y);
+        fill(255, 100);
+        text(this.txtD, x-1, y-1);
+        this.txtP = this.txt;
+    }
 
 }
 

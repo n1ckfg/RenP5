@@ -1,107 +1,104 @@
 class RenP5 {
-  
-  ArrayList<Scene> scenes;
-  Dialogue dialogue;
-  
-  RenP5() {
-    dialogue = new Dialogue();
-    scenes = new ArrayList<Scene>();
     
-    setupActors();
-    setupScenes();
-    begin();
-  }
+    RenP5() {
+        this.dialogue = new Dialogue();
+        this.scenes = [];
+        
+        this.setupActors();
+        this.setupScenes();
+        this.begin();
+    }
 
-  void setupActors() {
-    //
-  }
-  
-  void setupScenes() {
-    //
-  }
-  
-  void begin() {
-    //
-  }
-
-  void update() {
-    //
-  }
-   
-  void draw() {
-    for (int i=0; i<scenes.size(); i++) {
-      Scene s = scenes.get(i);
-      s.run();
-      
-      for (int j=0; j<s.actors.size(); j++) {
-        Actor a = s.actors.get(j);
-        a.alive = s.alive;
-        a.alpha = s.alpha;
-        a.pos = s.pos.get(j);
-        a.run();
-      }
+    setupActors() {
+        //
     }
     
-    dialogue.draw();
-  }
-  
-  void run() {
-    update();
-    draw();
-  }
-  
-  void speak(Actor a, String txt) {
-    dialogue.choiceBlock = false;
-    int index = 0;
-    if (dialogue.currentScene.actors.size() > 1) {
-      for (int i=0; i<dialogue.currentScene.actors.size(); i++) {
-        if (a == dialogue.currentScene.actors.get(i)) {
-          index = i;
-          break;
+    setupScenes() {
+        //
+    }
+    
+    begin() {
+        //
+    }
+
+    update() {
+        //
+    }
+     
+    draw() {
+        for (var i=0; i<this.scenes.length; i++) {
+            var s = this.scenes[i];
+            s.run();
+            
+            for (var j=0; j<s.actors.length; j++) {
+                var a = s.actors[j];
+                a.alive = s.alive;
+                a.alpha = s.alpha;
+                a.pos = s.pos[j];
+                a.run();
+            }
         }
-      }
+        
+        this.dialogue.draw();
     }
-    dialogue.slot[index].fontColor = a.fontColor;
-    dialogue.slot[index].txt = a.name + ": " + txt;
-  }
+    
+    run() {
+        this.update();
+        this.draw();
+    }
+    
+    speak(a, txt) {
+        this.dialogue.choiceBlock = false;
+        var index = 0;
+        if (this.dialogue.currentScene.actors.length > 1) {
+            for (var i=0; i<this.dialogue.currentScene.actors.length; i++) {
+                if (a === this.dialogue.currentScene.actors[i]) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        this.dialogue.slot[index].fontColor = a.fontColor;
+        this.dialogue.slot[index].txt = a.name + ": " + txt;
+    }
  
-  void speak(String txt) {
-    dialogue.choiceBlock = false;
-    dialogue.slot[0].fontColor = dialogue.defaultFontColor;
-    dialogue.slot[0].txt = txt;
-  }
-  
-  void choice(int index, String txt, int dest) {
-    dialogue.choiceBlock = true;
-    dialogue.slot[index-1].fontColor = dialogue.defaultFontColor;
-    dialogue.slot[index-1].txt = index + ". " + txt;    
-    if (keyPressed) {
-      String k = ""+key;
-      if (k.equals(""+index)) {
-        dialogue.currentScene.counter = dest;
-      }
+    speak(txt) {
+        this.dialogue.choiceBlock = false;
+        this.dialogue.slot[0].fontColor = this.dialogue.defaultFontColor;
+        this.dialogue.slot[0].txt = txt;
     }
-  }
-  
-  void gotoScene(Scene scene) {
-    for (int i=0; i<scenes.size(); i++) {
-      Scene s = scenes.get(i);
-      s.alive = s.name == scene.name;
-      if (s.alive) {
-        s.markTime = millis();
-        dialogue.currentScene = s;
-      }
+    
+    choice(index, txt, dest) {
+        this.dialogue.choiceBlock = true;
+        this.dialogue.slot[index-1].fontColor = this.dialogue.defaultFontColor;
+        this.dialogue.slot[index-1].txt = index + ". " + txt;        
+        if (keyPressed) {
+            var k = ""+key;
+            if (k === ""+index) {
+                this.dialogue.currentScene.counter = dest;
+            }
+        }
     }
-    for (int i=0; i<dialogue.slot.length; i++) {
-      dialogue.slot[i].txt = "";
+    
+    gotoScene(scene) {
+        for (var i=0; i<scenes.length; i++) {
+            var s = scenes[i];
+            s.alive = s.name === scene.name;
+            if (s.alive) {
+                s.markTime = millis();
+                this.dialogue.currentScene = s;
+            }
+        }
+        for (var i=0; i<this.dialogue.slot.length; i++) {
+            this.dialogue.slot[i].txt = "";
+        }
     }
-  }
-  
-  Scene addScene(String name) {
-    Scene s = new Scene(name);
-    scenes.add(s);
-    return s;
-  }
-  
+    
+    addScene(name) {
+        var s = new Scene(name);
+        scenes.push(s);
+        return s;
+    }
+    
 }
 

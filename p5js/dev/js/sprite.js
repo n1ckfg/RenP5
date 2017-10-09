@@ -1,69 +1,68 @@
 class Sprite {
-  
-  PVector pos;
-  PGraphics g;
-  PImage img;
-  String url;
-  boolean scaleToFit = false;
-  String name = "";
-  String type = "";
-  int alpha = 0;
-  boolean alive = false;
-  int fadeDelta = 5;
- 
-  Sprite(String _name, String _type) {
-    init(_name, _type);
-  }
-      
-  void init(String _name, String _type) {
-    name = _name;
-    type = _type;
-    if (type.equals("actor")) {
-      scaleToFit = false;
-      url = "actors/" + _name + "/" + _name + "_main.png";      
-    } else if (type.equals("scene")) {
-      scaleToFit = true;
-      url = "scenes/" + _name + ".png";      
+    
+    constructor(_name, _type) {
+	    this.pos;
+	    this.g;
+	    this.img;
+	    this.url;
+	    this.scaleToFit = false;
+	    this.name = "";
+	    this.type = "";
+	    this.alpha = 0;
+	    this.alive = false;
+	    this.fadeDelta = 5;
+        this.init(_name, _type);
     }
-    img = loadImage(url);
-    alpha = 0;
-    alive = true;
+            
+    init(_name, _type) {
+        this.name = _name;
+        this.type = _type;
+        if (this.type === "actor") {
+            this.scaleToFit = false;
+            this.url = "actors/" + _name + "/" + _name + "_main.png";            
+        } else if (this.type === "scene") {
+            this.scaleToFit = true;
+            this.url = "scenes/" + _name + ".png";            
+        }
+        this.img = loadImage(this.url);
+        this.alpha = 0;
+        this.alive = true;
+        
+        this.pos = createVector(width/2, height/2);
+        if (this.scaleToFit) this.img.resize(0, height);
+        this.g = createGraphics(this.img.width, this.img.height);
+    }
     
-    pos = new PVector(width/2, height/2);
-    if (scaleToFit) img.resize(0, height);
-    g = createGraphics(img.width, img.height, P2D);
-  }
-  
-  void update() {
-    if (type == "scene") fader();
-  }
+    update() {
+        if (this.type == "scene") this.fader();
+    }
  
-  void draw() {
-    g.beginDraw();
-    g.clear();
-    g.tint(color(255, alpha));
-    g.imageMode(CORNER);
-    g.image(img, 0, 0);
-    g.endDraw();
+    draw() {
+        this.g.beginDraw();
+        this.g.clear();
+        this.g.tint(color(255, alpha));
+        this.g.imageMode(CORNER);
+        this.g.image(img, 0, 0);
+        this.g.endDraw();
+        
+        imageMode(CENTER);
+        image(this.g, this.pos.x, this.this.pos.y);
+    }
     
-    imageMode(CENTER);
-    image(g, pos.x, pos.y);
-  }
-  
-  void run() {
-    update();
-    draw();
-  }
+    run() {
+        this.update();
+        this.draw();
+    }
 
-  void fader() {
-    if (alive && alpha < 255) {
-      alpha += fadeDelta;
-      if (alpha > 255) alpha = 255;
-    } else if (!alive && alpha > 0) {
-      alpha -= fadeDelta;
-      if (alpha < 0) alpha = 0;
+    fader() {
+        if (this.alive && this.alpha < 255) {
+            this.alpha += this.fadeDelta;
+            if (this.alpha > 255) this.alpha = 255;
+        } else if (!this.alive && this.alpha > 0) {
+            this.alpha -= this.fadeDelta;
+            if (this.alpha < 0) this.alpha = 0;
+        }
     }
-  }
-  
+    
 }
 

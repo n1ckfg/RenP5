@@ -1,15 +1,15 @@
 @echo off
 
 set ROOT_DIR=%cd%
-set BUILD_TARGET=%ROOT_DIR%\build\RenP5.pde
-set BUILD_DIR=%ROOT_DIR%\Dev\
+set BUILD_TARGET=%ROOT_DIR%\build\renP5.js
+set BUILD_DIR=%ROOT_DIR%\dev\js
 
 del %BUILD_TARGET%
 
 cd %BUILD_DIR%
 
-copy /b RenP5Core.pde+Sprite.pde+Scene.pde+Actor.pde+Dialogue.pde %BUILD_TARGET%
+copy /b renP5core.js+sprite.js+scene.js+actor.js+dialogue.js %BUILD_TARGET%
 
-copy %BUILD_TARGET% "%ROOT_DIR%\Example01"
+copy %BUILD_TARGET% "%ROOT_DIR%\example01\js"
 
 @pause

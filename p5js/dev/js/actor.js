@@ -1,35 +1,31 @@
 class Actor extends Sprite {
 
-  PFont font;
-  int fontSize;
-  color fontColor;
-  ArrayList<PImage> states;
-  ArrayList<String> stateNames;
-  
-  Actor(String _name, color _fontColor) {
-    super(_name, "actor");
-    fontColor = _fontColor;
-    
-    states = new ArrayList<PImage>();
-    states.add(img);
-    stateNames = new ArrayList<String>();
-    stateNames.add("main");
-  }
-  
-  void addState(String _name) {
-    PImage temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
-    states.add(temp);
-    stateNames.add(_name);
-  }
-  
-  void setState(String _name) {
-    for (int i=0; i<stateNames.size(); i++) {
-      if (stateNames.get(i).equals(_name)) {
-        img = states.get(i);
-        break;
-      }
+    constructor(_name, _fontColor) {
+        super(_name, "actor");
+    	this.font;
+    	this.fontSize;
+    	this.states = [];
+    	this.stateNames = [];        
+        this.fontColor = _fontColor;
+        
+        this.states.push(this.img);
+        this.stateNames.push("main");
     }
-  }
-  
+    
+    addState(_name) {
+        var temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
+        this.states.add(temp);
+        this.stateNames.add(_name);
+    }
+    
+    setState(_name) {
+        for (var i=0; i<this.stateNames.length; i++) {
+            if (this.stateNames[i] === _name) {
+                this.img = this.states[i];
+                break;
+            }
+        }
+    }
+    
 }
 
