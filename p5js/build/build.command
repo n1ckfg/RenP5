@@ -8,14 +8,16 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-BUILD_TARGET=$DIR"/build/RenP5.pde"
-SOURCE_DIR=$DIR"/Dev/"
+BUILD_TARGET=$DIR"/renP5.js"
+SOURCE_DIR=$DIR"/dev/js"
 
 rm $BUILD_TARGET
 touch $BUILD_TARGET
 
 cd $SOURCE_DIR
 
-cat "RenP5Core.pde" "Sprite.pde" "Scene.pde" "Actor.pde" "Dialogue.pde" > $BUILD_TARGET
+cat "renP5core.js" "sprite.js" "scene.js" "actor.js" "dialogue.js" > $BUILD_TARGET
 
-cp $BUILD_TARGET $DIR"/Example01/"
+cd $DIR
+
+cp $BUILD_TARGET "../example01/js"

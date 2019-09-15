@@ -13,7 +13,7 @@ class Actor extends Sprite {
     }
     
     addState(_name) {
-        var temp = loadImage("./images/actors/" + name + "/" + name + "_" + _name + ".png");
+        var temp = loadImage("./images/actors/" + this.name + "/" + this.name + "_" + _name + ".png");
         this.states.push(temp);
         this.stateNames.push(_name);
     }

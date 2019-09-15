@@ -81,9 +81,9 @@ class RenP5 {
     }
     
     gotoScene(scene) {
-        for (var i=0; i<scenes.length; i++) {
-            var s = scenes[i];
-            s.alive = s.name === scene.name;
+        for (var i=0; i<this.scenes.length; i++) {
+            var s = this.scenes[i];
+            s.alive = s.name === this.scene.name;
             if (s.alive) {
                 s.markTime = millis();
                 this.dialogue.currentScene = s;
@@ -96,7 +96,7 @@ class RenP5 {
     
     addScene(name) {
         var s = new Scene(name);
-        scenes.push(s);
+        this.scenes.push(s);
         return s;
     }
     
@@ -123,10 +123,10 @@ class Sprite {
         this.type = _type;
         if (this.type === "actor") {
             this.scaleToFit = false;
-            this.url = "actors/" + _name + "/" + _name + "_main.png";            
+            this.url = "./images/actors/" + _name + "/" + _name + "_main.png";            
         } else if (this.type === "scene") {
             this.scaleToFit = true;
-            this.url = "scenes/" + _name + ".png";            
+            this.url = "./images/scenes/" + _name + ".png";            
         }
         this.img = loadImage(this.url);
         this.alpha = 0;
@@ -173,6 +173,7 @@ class Sprite {
 class Scene extends Sprite {
     
     constructor(_name) {
+        super();
     	this.actors = [];
     	this.pos = [];
     
@@ -198,7 +199,7 @@ class Actor extends Sprite {
 
     constructor(_name, _fontColor) {
         super(_name, "actor");
-    	this.font;
+    	//this.font;
     	this.fontSize;
     	this.states = [];
     	this.stateNames = [];        
@@ -209,9 +210,9 @@ class Actor extends Sprite {
     }
     
     addState(_name) {
-        var temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
-        this.states.add(temp);
-        this.stateNames.add(_name);
+        var temp = loadImage("./images/actors/" + this.name + "/" + this.name + "_" + _name + ".png");
+        this.states.push(temp);
+        this.stateNames.push(_name);
     }
     
     setState(_name) {

@@ -10,6 +10,8 @@ cd %BUILD_DIR%
 
 copy /b RenP5Core.pde+Sprite.pde+Scene.pde+Actor.pde+Dialogue.pde %BUILD_TARGET%
 
-copy %BUILD_TARGET% "%ROOT_DIR%\Example01"
+cd %ROOT_DIR%
+
+copy %BUILD_TARGET% "..\Example01"
 
 @pause

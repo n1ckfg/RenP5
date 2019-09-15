@@ -1,6 +1,7 @@
 class Scene extends Sprite {
     
     constructor(_name) {
+        super();
     	this.actors = [];
     	this.pos = [];
     
