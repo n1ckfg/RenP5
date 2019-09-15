@@ -7,6 +7,7 @@ function setup() {
   background(0);
   
   rp5 = new RenP5Script();
+  
 }
 
 function draw() {

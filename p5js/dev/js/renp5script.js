@@ -7,6 +7,9 @@ class RenP5Script extends RenP5 {
     	this.City;
     	this.CaveBlue;
     	this.CaveRed;
+    	this.setupActors();
+    	this.setupScenes();
+    	this.begin();
     }
     
     setupActors() {
@@ -18,14 +21,14 @@ class RenP5Script extends RenP5 {
     }
 
     setupScenes() {
-        this.City = addScene("City");
+        this.City = this.addScene("City");
         this.City.addActor(this.RobotBlue, (width/2) - 200, (height/2) + 87);
         this.City.addActor(this.RobotRed, (width/2) + 200, (height/2) + 87);
 
-        this.CaveRed = addScene("CaveRed");
+        this.CaveRed = this.addScene("CaveRed");
         this.CaveRed.addActor(this.RobotRed, width/2, (height/2) + 87);    
 
-        this.CaveBlue = addScene("CaveBlue");
+        this.CaveBlue = this.addScene("CaveBlue");
         this.CaveBlue.addActor(this.RobotBlue, width/2, (height/2) + 87);    
     }
     

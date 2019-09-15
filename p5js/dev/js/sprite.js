@@ -19,10 +19,10 @@ class Sprite {
         this.type = _type;
         if (this.type === "actor") {
             this.scaleToFit = false;
-            this.url = "actors/" + _name + "/" + _name + "_main.png";            
+            this.url = "./images/actors/" + _name + "/" + _name + "_main.png";            
         } else if (this.type === "scene") {
             this.scaleToFit = true;
-            this.url = "scenes/" + _name + ".png";            
+            this.url = "./images/scenes/" + _name + ".png";            
         }
         this.img = loadImage(this.url);
         this.alpha = 0;

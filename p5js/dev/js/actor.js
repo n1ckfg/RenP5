@@ -2,7 +2,7 @@ class Actor extends Sprite {
 
     constructor(_name, _fontColor) {
         super(_name, "actor");
-    	this.font;
+    	//this.font;
     	this.fontSize;
     	this.states = [];
     	this.stateNames = [];        
@@ -13,9 +13,9 @@ class Actor extends Sprite {
     }
     
     addState(_name) {
-        var temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
-        this.states.add(temp);
-        this.stateNames.add(_name);
+        var temp = loadImage("./images/actors/" + name + "/" + name + "_" + _name + ".png");
+        this.states.push(temp);
+        this.stateNames.push(_name);
     }
     
     setState(_name) {

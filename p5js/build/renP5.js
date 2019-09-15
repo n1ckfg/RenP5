@@ -1,333 +1,311 @@
 class RenP5 {
-  
-  ArrayList<Scene> scenes;
-  Dialogue dialogue;
-  
-  RenP5() {
-    dialogue = new Dialogue();
-    scenes = new ArrayList<Scene>();
     
-    setupActors();
-    setupScenes();
-    begin();
-  }
+    RenP5() {
+        this.dialogue = new Dialogue();
+        this.scenes = [];
+        
+        this.setupActors();
+        this.setupScenes();
+        this.begin();
+    }
 
-  void setupActors() {
-    //
-  }
-  
-  void setupScenes() {
-    //
-  }
-  
-  void begin() {
-    //
-  }
-
-  void update() {
-    //
-  }
-   
-  void draw() {
-    for (int i=0; i<scenes.size(); i++) {
-      Scene s = scenes.get(i);
-      s.run();
-      
-      for (int j=0; j<s.actors.size(); j++) {
-        Actor a = s.actors.get(j);
-        a.alive = s.alive;
-        a.alpha = s.alpha;
-        a.pos = s.pos.get(j);
-        a.run();
-      }
+    setupActors() {
+        //
     }
     
-    dialogue.draw();
-  }
-  
-  void run() {
-    update();
-    draw();
-  }
-  
-  void speak(Actor a, String txt) {
-    dialogue.choiceBlock = false;
-    int index = 0;
-    if (dialogue.currentScene.actors.size() > 1) {
-      for (int i=0; i<dialogue.currentScene.actors.size(); i++) {
-        if (a == dialogue.currentScene.actors.get(i)) {
-          index = i;
-          break;
+    setupScenes() {
+        //
+    }
+    
+    begin() {
+        //
+    }
+
+    update() {
+        //
+    }
+     
+    draw() {
+        for (var i=0; i<this.scenes.length; i++) {
+            var s = this.scenes[i];
+            s.run();
+            
+            for (var j=0; j<s.actors.length; j++) {
+                var a = s.actors[j];
+                a.alive = s.alive;
+                a.alpha = s.alpha;
+                a.pos = s.pos[j];
+                a.run();
+            }
         }
-      }
+        
+        this.dialogue.draw();
     }
-    dialogue.slot[index].fontColor = a.fontColor;
-    dialogue.slot[index].txt = a.name + ": " + txt;
-  }
+    
+    run() {
+        this.update();
+        this.draw();
+    }
+    
+    speak(a, txt) {
+        this.dialogue.choiceBlock = false;
+        var index = 0;
+        if (this.dialogue.currentScene.actors.length > 1) {
+            for (var i=0; i<this.dialogue.currentScene.actors.length; i++) {
+                if (a === this.dialogue.currentScene.actors[i]) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        this.dialogue.slot[index].fontColor = a.fontColor;
+        this.dialogue.slot[index].txt = a.name + ": " + txt;
+    }
  
-  void speak(String txt) {
-    dialogue.choiceBlock = false;
-    dialogue.slot[0].fontColor = dialogue.defaultFontColor;
-    dialogue.slot[0].txt = txt;
-  }
-  
-  void choice(int index, String txt, int dest) {
-    dialogue.choiceBlock = true;
-    dialogue.slot[index-1].fontColor = dialogue.defaultFontColor;
-    dialogue.slot[index-1].txt = index + ". " + txt;    
-    if (keyPressed) {
-      String k = ""+key;
-      if (k.equals(""+index)) {
-        dialogue.currentScene.counter = dest;
-      }
+    speak(txt) {
+        this.dialogue.choiceBlock = false;
+        this.dialogue.slot[0].fontColor = this.dialogue.defaultFontColor;
+        this.dialogue.slot[0].txt = txt;
     }
-  }
-  
-  void gotoScene(Scene scene) {
-    for (int i=0; i<scenes.size(); i++) {
-      Scene s = scenes.get(i);
-      s.alive = s.name == scene.name;
-      if (s.alive) {
-        s.markTime = millis();
-        dialogue.currentScene = s;
-      }
+    
+    choice(index, txt, dest) {
+        this.dialogue.choiceBlock = true;
+        this.dialogue.slot[index-1].fontColor = this.dialogue.defaultFontColor;
+        this.dialogue.slot[index-1].txt = index + ". " + txt;        
+        if (keyPressed) {
+            var k = ""+key;
+            if (k === ""+index) {
+                this.dialogue.currentScene.counter = dest;
+            }
+        }
     }
-    for (int i=0; i<dialogue.slot.length; i++) {
-      dialogue.slot[i].txt = "";
+    
+    gotoScene(scene) {
+        for (var i=0; i<scenes.length; i++) {
+            var s = scenes[i];
+            s.alive = s.name === scene.name;
+            if (s.alive) {
+                s.markTime = millis();
+                this.dialogue.currentScene = s;
+            }
+        }
+        for (var i=0; i<this.dialogue.slot.length; i++) {
+            this.dialogue.slot[i].txt = "";
+        }
     }
-  }
-  
-  Scene addScene(String name) {
-    Scene s = new Scene(name);
-    scenes.add(s);
-    return s;
-  }
-  
+    
+    addScene(name) {
+        var s = new Scene(name);
+        scenes.push(s);
+        return s;
+    }
+    
 }
 
 class Sprite {
-  
-  PVector pos;
-  PGraphics g;
-  PImage img;
-  String url;
-  boolean scaleToFit = false;
-  String name = "";
-  String type = "";
-  int alpha = 0;
-  boolean alive = false;
-  int fadeDelta = 5;
- 
-  Sprite(String _name, String _type) {
-    init(_name, _type);
-  }
-      
-  void init(String _name, String _type) {
-    name = _name;
-    type = _type;
-    if (type.equals("actor")) {
-      scaleToFit = false;
-      url = "actors/" + _name + "/" + _name + "_main.png";      
-    } else if (type.equals("scene")) {
-      scaleToFit = true;
-      url = "scenes/" + _name + ".png";      
+    
+    constructor(_name, _type) {
+	    this.pos;
+	    this.g;
+	    this.img;
+	    this.url;
+	    this.scaleToFit = false;
+	    this.name = "";
+	    this.type = "";
+	    this.alpha = 0;
+	    this.alive = false;
+	    this.fadeDelta = 5;
+        this.init(_name, _type);
     }
-    img = loadImage(url);
-    alpha = 0;
-    alive = true;
+            
+    init(_name, _type) {
+        this.name = _name;
+        this.type = _type;
+        if (this.type === "actor") {
+            this.scaleToFit = false;
+            this.url = "actors/" + _name + "/" + _name + "_main.png";            
+        } else if (this.type === "scene") {
+            this.scaleToFit = true;
+            this.url = "scenes/" + _name + ".png";            
+        }
+        this.img = loadImage(this.url);
+        this.alpha = 0;
+        this.alive = true;
+        
+        this.pos = createVector(width/2, height/2);
+        if (this.scaleToFit) this.img.resize(0, height);
+        this.g = createGraphics(this.img.width, this.img.height);
+    }
     
-    pos = new PVector(width/2, height/2);
-    if (scaleToFit) img.resize(0, height);
-    g = createGraphics(img.width, img.height, P2D);
-  }
-  
-  void update() {
-    if (type == "scene") fader();
-  }
+    update() {
+        if (this.type == "scene") this.fader();
+    }
  
-  void draw() {
-    g.beginDraw();
-    g.clear();
-    g.tint(color(255, alpha));
-    g.imageMode(CORNER);
-    g.image(img, 0, 0);
-    g.endDraw();
+    draw() {
+        this.g.beginDraw();
+        this.g.clear();
+        this.g.tint(color(255, alpha));
+        this.g.imageMode(CORNER);
+        this.g.image(img, 0, 0);
+        this.g.endDraw();
+        
+        imageMode(CENTER);
+        image(this.g, this.pos.x, this.this.pos.y);
+    }
     
-    imageMode(CENTER);
-    image(g, pos.x, pos.y);
-  }
-  
-  void run() {
-    update();
-    draw();
-  }
+    run() {
+        this.update();
+        this.draw();
+    }
 
-  void fader() {
-    if (alive && alpha < 255) {
-      alpha += fadeDelta;
-      if (alpha > 255) alpha = 255;
-    } else if (!alive && alpha > 0) {
-      alpha -= fadeDelta;
-      if (alpha < 0) alpha = 0;
+    fader() {
+        if (this.alive && this.alpha < 255) {
+            this.alpha += this.fadeDelta;
+            if (this.alpha > 255) this.alpha = 255;
+        } else if (!this.alive && this.alpha > 0) {
+            this.alpha -= this.fadeDelta;
+            if (this.alpha < 0) this.alpha = 0;
+        }
     }
-  }
-  
+    
 }
 
 class Scene extends Sprite {
-  
-  ArrayList<Actor> actors;
-  ArrayList<PVector> pos;
-  
-  int counter = 0;
-  String monologue;
-  int markTime = 0;
-  
-  Scene(String _name) {
-    super(_name, "scene");
-    actors = new ArrayList<Actor>();
-    pos = new ArrayList<PVector>();
-  }
-  
-  void update() {
-    super.update();
-    if (!alive) counter = 0;
-  }
-  
-  void addActor(Actor a, float x, float y) {
-    actors.add(a);
-    pos.add(new PVector(x, y));
-  }
-  
+    
+    constructor(_name) {
+    	this.actors = [];
+    	this.pos = [];
+    
+    	this.counter = 0;
+    	this.monologue;
+    	this.markTime = 0;
+        super(_name, "scene");
+    }
+    
+    update() {
+        super.update();
+        if (!this.alive) this.counter = 0;
+    }
+    
+    addActor(a, x, y) {
+        this.actors.push(a);
+        this.pos.push(createVector(x, y));
+    }
+    
 }
 
 class Actor extends Sprite {
 
-  PFont font;
-  int fontSize;
-  color fontColor;
-  ArrayList<PImage> states;
-  ArrayList<String> stateNames;
-  
-  Actor(String _name, color _fontColor) {
-    super(_name, "actor");
-    fontColor = _fontColor;
-    
-    states = new ArrayList<PImage>();
-    states.add(img);
-    stateNames = new ArrayList<String>();
-    stateNames.add("main");
-  }
-  
-  void addState(String _name) {
-    PImage temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
-    states.add(temp);
-    stateNames.add(_name);
-  }
-  
-  void setState(String _name) {
-    for (int i=0; i<stateNames.size(); i++) {
-      if (stateNames.get(i).equals(_name)) {
-        img = states.get(i);
-        break;
-      }
+    constructor(_name, _fontColor) {
+        super(_name, "actor");
+    	this.font;
+    	this.fontSize;
+    	this.states = [];
+    	this.stateNames = [];        
+        this.fontColor = _fontColor;
+        
+        this.states.push(this.img);
+        this.stateNames.push("main");
     }
-  }
-  
+    
+    addState(_name) {
+        var temp = loadImage("actors/" + name + "/" + name + "_" + _name + ".png");
+        this.states.add(temp);
+        this.stateNames.add(_name);
+    }
+    
+    setState(_name) {
+        for (var i=0; i<this.stateNames.length; i++) {
+            if (this.stateNames[i] === _name) {
+                this.img = this.states[i];
+                break;
+            }
+        }
+    }
+    
 }
 
 class Dialogue {
 
-  PFont defaultFont;
-  int defaultFontSize;
-  color defaultFontColor;
-  DialogueSlot[] slot = new DialogueSlot[3];
-  int dialogueHeight;
-  int delayTime = 900;
-  Scene currentScene;
-  boolean finished = false;
-  boolean choiceBlock = false;
-  
-  Dialogue() {
-    defaultFontSize = 28;
-    dialogueHeight = int(defaultFontSize * 7.5);
-    defaultFont = createFont("Arial", defaultFontSize);
-    defaultFontColor = color(200); 
+    constructor() {
+	    this.defaultFont = createFont("Arial", defaultFontSize);
+	    this.defaultFontSize = 28;
+	    this.defaultFontColor = color(200); 
+	    this.slot = [];
+	    this.dialogueHeight = parseInt(defaultFontSize * 7.5);
+	    this.delayTime = 900;
+	    this.currentScene;
+	    this.finished = false;
+	    this.choiceBlock = false;
 
-    for  (int i=0; i<slot.length; i++) {
-      slot[i] = new DialogueSlot(i, defaultFont, defaultFontSize, defaultFontColor, dialogueHeight);
+        for (var i=0; i<3; i++) {
+            this.slot.push(new DialogueSlot(i, defaultFont, defaultFontSize, defaultFontColor, dialogueHeight));
+        }
     }
-  }
 
-  void draw() {
-    fill(0, 200);
-    noStroke();
-    rect(0, height-dialogueHeight, width, height);
-    stroke(255);
-    strokeWeight(2);
-    line(0, height-dialogueHeight, width, height-dialogueHeight);
-    stroke(255, 63);
-    strokeWeight(6);
-    line(0, height-dialogueHeight, width, height-dialogueHeight);
+    draw() {
+        fill(0, 200);
+        noStroke();
+        rect(0, height-this.dialogueHeight, width, height);
+        stroke(255);
+        strokeWeight(2);
+        line(0, height-this.dialogueHeight, width, height-this.dialogueHeight);
+        stroke(255, 63);
+        strokeWeight(6);
+        line(0, height-this.dialogueHeight, width, height-this.dialogueHeight);
+        
+        if (millis() > this.currentScene.markTime + this.delayTime) {
+            this.finished = true;
+            for (var i=0; i<this.slot.length; i++) {
+                if (i==0 || this.slot[i-1].finished) this.slot[i].run();
+                if (!this.slot[i].finished) this.finished = false;
+            }
+        }
+    }
     
-    if (millis() > currentScene.markTime + delayTime) {
-      finished = true;
-      for (int i=0; i<slot.length; i++) {
-        if (i==0 || slot[i-1].finished) slot[i].run();
-        if (!slot[i].finished) finished = false;
-      }
+    advance() {
+        if (this.finished && !this.choiceBlock) this.currentScene.counter++;
     }
-  }
-  
-  void advance() {
-    if (finished && !choiceBlock) currentScene.counter++;
-  }
 }
 
 class DialogueSlot {
-
-  PFont font;
-  int fontSize;
-  color fontColor;
-  String txt = "";
-  String txtP = "";
-  String txtD = "";
-  int index;
-  int dialogueHeight;
-  boolean finished = false;
-  
-  DialogueSlot(int _index, PFont _font, int _fontSize, color _fontColor, int _dialogueHeight) {
-    index = _index;
-    font = _font;
-    fontSize = _fontSize;
-    fontColor = _fontColor;
-    dialogueHeight = _dialogueHeight;
-  }
-
-  void run() {
-    if (!txtP.equals(txt)) {
-      txtD = "";
-      finished = false;
-    }
     
-    if (!finished && txtD.length() < txt.length()) {
-      txtD += txt.charAt(txtD.length());
-    } else if (txtD.length() == txt.length()) {
-      finished = true;
+    constructor(_index, _font, _fontSize, _fontColor, _dialogueHeight) {
+	    this.txt = "";
+	    this.txtP = "";
+	    this.txtD = "";
+	    this.index = _index;
+	    this.dialogueHeight = _dialogueHeight;
+	    this.finished = false;
+        this.font = _font;
+        this.fontSize = _fontSize;
+        this.fontColor = _fontColor;
     }
-   
-    textFont(font, fontSize);
-    textAlign(CENTER);
-    int x = width/2;
-    int y = height-(dialogueHeight-(fontSize*(2+(index*2))));
-    fill(0);
-    text(txtD, x+2, y+2);
-    fill(fontColor);    
-    text(txtD, x, y);
-    fill(255, 100);
-    text(txtD, x-1, y-1);
-    txtP = txt;
-  }
+
+    run() {
+        if (this.txtP !== this.txt) {
+            this.txtD = "";
+            this.finished = false;
+        }
+        
+        if (!this.finished && this.txtD.length() < this.txt.length()) {
+            this.txtD += this.txt.charAt(this.txtD.length());
+        } else if (this.txtD.length() === this.txt.length()) {
+            this.finished = true;
+        }
+     
+        textFont(this.font, this.fontSize);
+        textAlign(CENTER);
+        var x = width/2;
+        var y = height-(this.dialogueHeight-(this.fontSize*(2+(this.index*2))));
+        fill(0);
+        text(this.txtD, x+2, y+2);
+        fill(this.fontColor);        
+        text(this.txtD, x, y);
+        fill(255, 100);
+        text(this.txtD, x-1, y-1);
+        this.txtP = this.txt;
+    }
 
 }
 

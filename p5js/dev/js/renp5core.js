@@ -81,9 +81,9 @@ class RenP5 {
     }
     
     gotoScene(scene) {
-        for (var i=0; i<scenes.length; i++) {
-            var s = scenes[i];
-            s.alive = s.name === scene.name;
+        for (var i=0; i<this.scenes.length; i++) {
+            var s = this.scenes[i];
+            s.alive = s.name === this.scene.name;
             if (s.alive) {
                 s.markTime = millis();
                 this.dialogue.currentScene = s;
@@ -96,7 +96,7 @@ class RenP5 {
     
     addScene(name) {
         var s = new Scene(name);
-        scenes.push(s);
+        this.scenes.push(s);
         return s;
     }
     
