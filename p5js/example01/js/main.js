@@ -1,3 +1,5 @@
+"use strict";
+
 RenP5Script rp5;
 
 void setup() {

@@ -1,3 +1,5 @@
+"use strict";
+
 class RenP5 {
     
     RenP5() {

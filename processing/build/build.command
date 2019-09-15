@@ -9,7 +9,7 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 BUILD_TARGET=$DIR"/RenP5.pde"
-SOURCE_DIR=$DIR"/Dev/"
+SOURCE_DIR=$DIR"/pde"
 
 rm $BUILD_TARGET
 touch $BUILD_TARGET

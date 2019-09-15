@@ -9,7 +9,7 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 BUILD_TARGET=$DIR"/renP5.js"
-SOURCE_DIR=$DIR"/dev/js"
+SOURCE_DIR=$DIR"/js"
 
 rm $BUILD_TARGET
 touch $BUILD_TARGET

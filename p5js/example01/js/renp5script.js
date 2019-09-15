@@ -1,3 +1,5 @@
+"use strict";
+
 class RenP5Script extends RenP5 {
 
   Actor RobotBlue, RobotRed;
